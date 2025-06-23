@@ -6,7 +6,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import RandomizedSearchCV
 
 class WiSARDClassifierTorch(BaseEstimator, ClassifierMixin):
-    def __init__(self, tuple_size=4, bleaching=False, verbose=True):
+    def __init__(self, tuple_size=4, bleaching=False, verbose=False):
         self.tuple_size = tuple_size
         self.bleaching = bleaching
         self.verbose = verbose
@@ -28,11 +28,6 @@ class WiSARDClassifierTorch(BaseEstimator, ClassifierMixin):
             tuple_size=self.tuple_size,
             bleaching=self.bleaching
         )
-
-        if self.verbose:
-            print(f"Treinando WiSARD com n_classes={self.n_classes_}, "
-                  f"entry_size={self.entry_size_}, tuple_size={self.tuple_size}, "
-                  f"bleaching={self.bleaching}")
 
         self.model_.fit(X_tensor, y_tensor)
 
@@ -85,7 +80,7 @@ def buscar_melhor_wisard(X_train, y_train, param_dist=None, n_iter=100, cv=3, sc
         param_distributions=param_dist,
         n_iter=n_iter,
         cv=cv,
-        verbose=2,
+        verbose=0,
         n_jobs=-1,
         scoring=scoring
     )
